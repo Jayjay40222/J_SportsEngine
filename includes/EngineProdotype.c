@@ -26,39 +26,38 @@ void JSE_Quit(){
 	IMG_Quit();
 	TTF_Quit();
 	
-	SDL_Event win_ev;
-	if (SDL_PollEvent(&win_ev)){
-		if (win_ev.type == SDL_QUIT){
-			int win_i;
-			for (win_i=0;win_i<current_window;win_i++){
-				SDL_DestroyWindow(windows[win_i]);
-			}
+	int win_i;
+	for (win_i=0;win_i<current_window;win_i++){
+		if (windows[win_i] != NULL){
+			SDL_DestroyWindow(windows[win_i]);	
+			windows[win_i] = NULL;
 		}
 	}
 }
 
-SDL_Window* Create_window(JSE_WindowHandler *winhandle, int w, int h, const char* title, bool fullscreen){
+SDL_Window* Create_window(JSE_WindowHandler *winHandle, int w, int h, const char* title, bool fullscreen){
 	Uint32 screen_state = fullscreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : SDL_WINDOW_SHOWN;
 
-	winhandle->window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTER, SDL_WINDOWPOS_CENTER, w, h, screen_state);
-	if (!winhandle->window){
+	winHandle->window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTER, SDL_WINDOWPOS_CENTER, w, h, screen_state);
+	if (!winHandle->window){
 		printf("[ERROR]:%s", SDL_GetError());
 		system("pause");
 		exit(0);
 	}
 	
 	// Storing all argument data in the struct to act like a getter function
-	winhandle->width = w;
-	winhandle->height = h;
-	winhandle->title = title;
-	winhandle->fullscreen = fullscreen;
+	winHandle->width = w;
+	winHandle->height = h;
+	winHandle->title = title;
+	winHandle->fullscreen = fullscreen;
 	
-	return winhandle->window;
-	windows[current_window] = winhandle->window;
+	return winHandle->window;
+	windows[current_window] = winHandle->window;
 	current_window++;
 }
 
-void JSE_SetWindowActive(JSE_WindowHandler *winhandle){
-	winhandle->Create_window = Create_window;
-	winhandle->window = NULL;
+void JSE_SetWindowActive(JSE_WindowHandler *winHandle){
+	winHandle->Create_window = Create_window;
+	winHandle->window = NULL;
 }
+
