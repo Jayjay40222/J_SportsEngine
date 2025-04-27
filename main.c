@@ -1,11 +1,11 @@
 #include "includes/EngineProdotype.h"
 #include <stdbool.h>
 
-int main(){
+int main(int argc, char *argv[]){
 	JSE_Init();
 	
-	JSE_WindowHandle win_handle;
-	JSE_SetWindowActive(&win_handle);
+	JSE_WindowHandler win_handle = {0};
+	win_handle.Create_window = Create_window;
 	JSE_Window* window = win_handle.Create_window(&win_handle, 500, 500, "JSE window", false);
 	
 	bool running = true;
