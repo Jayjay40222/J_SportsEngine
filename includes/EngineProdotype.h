@@ -9,12 +9,14 @@
 #ifndef ENGINEPRODOTYPE_H
 #define ENGINEPRODOTYPE_H
 
+#define SDL_MAIN_HANDLED
+
 // All includes
-#include <SDL.h>
-#include <SDL_image.h>
-#include <SDL_mixer.h>
-#include <SDL_ttf.h>
-#include "include/stb_image.h"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_mixer.h>
+#include <SDL2/SDL_ttf.h>
+#include <stdbool.h>
 
 typedef struct SDL_Window JSE_Window;
 typedef struct SDL_Texture JSE_Object;
@@ -22,7 +24,7 @@ typedef struct SDL_Texture JSE_Object;
 void JSE_Init();
 void JSE_Quit();
 
-typedef struct{
+typedef struct JSE_WindowHandler{
 	int width;
 	int height;
 	const char* title;
@@ -31,15 +33,16 @@ typedef struct{
 	JSE_Window* window;
 }JSE_WindowHandler;
 
-void JSE_SetWindowActive(JSE_WindowHandler *winHandle);
-
 typedef struct{
 	const char* path;
 	int width;
 	int height;
 	float xpos;
 	float ypos;
-	JSE_Object* (*Load_object)(struct JSE_SpriteHandler* sH, const char* path)
+	//JSE_Object* (*Load_object)(struct JSE_SpriteHandler* sH, const char* path);
 }JSE_SpriteHandler;
 
+SDL_Window* Create_window(struct JSE_WindowHandler *winHandle, int w, int h, const char* title, bool fullscreen);
+
 #endif
+
